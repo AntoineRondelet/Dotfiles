@@ -1,0 +1,20 @@
+echo "`printf '\033[01;32m'`Hello `printf '\033[01;34m'`$USER`printf '\033[00m'`"
+
+export EDITOR=/usr/local/Cellar/vim/7.4.2033/bin/vim
+export VISUAL=vim
+
+# Enable Ctrl-x-e to edit command line
+autoload edit-command-line
+zle -N edit-command-line
+bindkey "^x^e" edit-command-line
+
+PATH=/home/Antoine/dotfiles/scripts/:/Users/Antoine/dev/go/bin:/Users/Antoine/.npm-global/bin:$PATH
+
+export NPM_CONFIG_PREFIX=~/.npm-global
+
+export GOPATH=/Users/Antoine/dev/go
+export GOBIN=/Users/Antoine/dev/go/bin
+
+#echo -e "CPU temp: \c" && {/opt/vc/bin/vcgencmd measure_temp | cut -d = -f 2}
+
+. /usr/local/Cellar/autojump/22.3.4/etc/autojump.sh

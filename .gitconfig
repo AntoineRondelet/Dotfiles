@@ -1,0 +1,21 @@
+[user]
+	email = rondelet.antoine@gmail.com
+	name = Antoine Rondelet
+[color]
+	ui = auto
+[alias]
+    st = status
+    oneline = log --pretty=oneline --abbrev-commit --graph --decorate
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    resolve = !vim -p $(git status | grep 'both modified' | sed 's%.*:\\s*\\(.*\\.js\\)%\\1%g' | tr '\\n' ' ')
+[merge]
+    tool = vimdiff3
+[mergetool]
+    prompt = false
+[push]
+	default = simple
+[fetch]
+    prune = true
+[core]
+	editor = vim
+	excludesfile = /Users/Antoine/.gitignore_global

@@ -1,0 +1,263 @@
+# https://github.com/rpellerin/dotfiles/blob/master/.aliases
+
+#############
+# FUNCTIONS #
+#############
+
+# Backup a file with date
+function backup() {
+    cp "$1" "$1_`date +%Y-%m-%d_%H-%M-%S`_BACKUP"
+}
+
+# Update all git repos
+function update_git_repos() {
+  if [ $# -ne 1 ]; then
+    echo "This function requires one parameter which must be a directory"
+    return
+  fi
+  CURRENT_DIR=`pwd`
+  echo "Updating all Git repos"
+  for DIR in "$1"/*; do
+    echo "\n========================================\n$DIR\n========================================"
+    if [[ -d "$CURRENT_DIR/$DIR" ]]; then
+      \cd "$CURRENT_DIR/$DIR"
+      git status
+      git pull origin $(git rev-parse --abbrev-ref HEAD)
+    else
+      echo "$CURRENT_DIR/$DIR not a directory"
+    fi
+  done
+  \cd "$CURRENT_DIR"
+}
+
+# Extract any archive
+function extract() {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)  tar xjf $1      ;;
+            *.tar.gz)   tar xzf $1      ;;
+            *.tar.xz)   tar xf $1       ;;
+            *.bz2)      bunzip2 $1      ;;
+            *.rar)      rar x $1        ;;
+            *.gz)       gunzip $1       ;;
+            *.tar)      tar xf $1       ;;
+            *.tbz2)     tar xjf $1      ;;
+            *.tgz)      tar xzf $1      ;;
+            *.zip)      unzip $1        ;;
+            *.Z)        uncompress $1   ;;
+            *)          echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Ban an IP
+function ban() {
+    if [ "`id -u`" == "0" ] ; then
+        iptables -A INPUT -s $1 -j DROP
+    else
+        sudo iptables -A INPUT -s $1 -j DROP
+    fi
+}
+
+# Update + upgrade the system
+function maj() {
+    sudo aptitude update && sudo aptitude safe-upgrade && sudo aptitude autoclean && sudo aptitude clean
+    notify-send -t 10000 "Update and upgrade done"
+}
+
+# Display the content of a directory after a 'cd'
+function custom_cd () {
+        \cd $@ && ls
+}
+
+# Open a file with the appropriate application
+function open {
+    while [ "$1" ] ; do
+        xdg-open $1 &> /dev/null
+        shift # shift décale les param
+    done
+}
+
+# Remove all backup files in specified directory and sub-directories
+function rm_backup {
+    find $1 -name '*~' -exec rm '{}' \; -print
+}
+
+# Shows the last modified files
+function last_modified {
+    find $1 -type f -exec stat --format '%Y :%y %n' {} \; | sort -n | cut -d: -f2- | tail
+}
+
+# Set the brightness to the desired value (0-100)
+function set_brightness {
+  sudo sh -c "echo $1 > /sys/class/backlight/acpi_video0/brightness"
+}
+
+# A reminder
+function findhelp {
+    echo "--------------------------------------------------------"
+    echo "# Delete a file recursively:"
+    echo "find / -name '*.DS_Store' -type f -delete"
+    echo "--------------------------------------------------------"
+    echo "# Rename a file recursively:"
+    echo "find / -type f -exec rename 's/oldname/newname/' '{}' \;"
+    echo "--------------------------------------------------------"
+    echo "# Find recently modified files"
+    echo "find / -type f -printf '%TY-%Tm-%Td %TT %p\n' | sort -r"
+    echo "--------------------------------------------------------"
+}
+
+# A reminder
+function githelp {
+    echo "-------------------------------------------------------------------------------"
+    echo "git clone http://... [repo-name]"
+    echo "git init [repo-name]"
+    echo "-------------------------------------------------------------------------------"
+    echo "git add -A <==> git add . ; git add -u # Add to the staging area (index)"
+    echo "-------------------------------------------------------------------------------"
+    echo "git commit -m 'message' -a"
+    echo "git commit -m 'message' -a --amend"
+    echo "-------------------------------------------------------------------------------"
+    echo "git status"
+    echo "git log --stat # Last commits, --stat optional"
+    echo "git ls-files"
+    echo "git diff HEAD~1..HEAD"
+    echo "-------------------------------------------------------------------------------"
+    echo "git push origin master"
+    echo "git push origin master:master"
+    echo "-------------------------------------------------------------------------------"
+    echo "git remote add origin http://..."
+    echo "git remote set-url origin git://..."
+    echo "-------------------------------------------------------------------------------"
+    echo "git stash"
+    echo "git pull origin master"
+    echo "git stash list ; git stash pop"
+    echo "-------------------------------------------------------------------------------"
+    echo "git submodule add /absolute/path repo-name"
+    echo "git submodule add http://... repo-name"
+    echo "-------------------------------------------------------------------------------"
+    echo "git checkout -b new-branch <==> git branch new-branch ; git checkout new-branch"
+    echo "git merge old-branch"
+    echo "git branch local_name origin/remote_name # Associate branches"
+    echo "-------------------------------------------------------------------------------"
+    echo "git update-index --assume-unchanged <file> # Ignore changes"
+    echo "git rm --cached <file> # Untrack a file"
+    echo "-------------------------------------------------------------------------------"
+    echo "git reset --hard HEAD # Repair what has been done since last commit"
+    echo "git revert HEAD # Repair last commit"
+    echo "git checkout [file] # Reset a file to its previous state at last commit"
+    echo "-------------------------------------------------------------------------------"
+    echo "git tag # List"
+    echo "git tag v0.5 # Lightwieght tag"
+    echo "git tag -a v1.4 -m 'my version 1.4' # Annotated tag"
+    echo "git push origin v1.4 # Pushing"
+    echo "-------------------------------------------------------------------------------"
+    echo "HOW TO RENAME A BRANCH LOCALLY AND REMOTELY"
+    echo "git branch -m old_name new_name"
+    echo "git push origin new_name"
+    echo "git push origin :old_name"
+    echo "------"
+    echo "Each other client of the repository has to do:"
+    echo "git fetch origin ; git remote prune origin"
+    echo "-------------------------------------------------------------------------------"
+}
+
+# A reminder
+function tmuxhelp {
+    echo "--------------------------------------------------------"
+    echo "tmux <=> tmux new -s name"
+    echo "--------------------------------------------------------"
+    echo "tmux a <=> tmux a -t name # Attach to a session"
+    echo "tmux ls ; tmux kill-session -t name # List/kill sessions"
+    echo "--------------------------------------------------------"
+    echo "# Sessions"
+    echo "ctrl+b s # List and change session"
+    echo "ctrl+b $ # Rename session"
+    echo "ctrl+b d # Detach"
+    echo "--------------------------------------------------------"
+    echo "# Windows (tabs)"
+    echo "ctrl+b c # New window"
+    echo "ctrl+b , # Rename window"
+    echo "ctrl+b w # List windows"
+    echo "ctrl+b f # Find window"
+    echo "ctrl+b & # Kill window"
+    echo "ctrl+b . # Move window"
+    echo "ctrl+b n # Next window"
+    echo "ctrl+b p # Previous window"
+    echo "--------------------------------------------------------"
+    echo "Panes (splits)"
+    echo "ctrl+b % # Horizontal split"
+    echo "ctrl+b \" # Vertical split"
+    echo "ctrl+b M-o # Swap panes"
+    echo "ctrl+b o # Go to pane"
+    echo "ctrl+b ; # Go to pane"
+    echo "ctrl+b <arrow> # Go to pane"
+    echo "ctrl+b q # Show pane numbers"
+    echo "ctrl+b x # Kill pane"
+    echo "ctrl+b (space) # Toggle between layouts"
+    echo "ctrl+b M-<arrow> # Resize panes"
+    echo "--------------------------------------------------------"
+    echo "# Others"
+    echo "ctrl+b t # Big clock"
+    echo "ctrl+b ? # List shortcuts"
+    echo "ctrl+b : # Prompt"
+    echo "--------------------------------------------------------"
+    echo "Taken from: https://gist.github.com/henrik/1967800"
+}
+
+# A reminder
+function docgo {
+    echo ' Run locally : $ godoc -http=:6060 '
+    echo ' Point your browser to : http://localhost:6060 '
+}
+
+function vimload {
+    vim --startuptime timeCost.txt timeCost.txt
+    rm -f timeCost.txt
+}
+
+function gitwhoistheboss {
+    echo 'You can specify a pattern, for example **/*.cpp'
+    echo 'git ls-tree -r -z --name-only HEAD -- **/*.cpp | xargs -0 -n1 git blame --line-porcelain HEAD |grep  "^author "|sort|uniq -c|sort -nr'
+}
+
+function ino {
+    EVENTS="create,modify,close_write,moved_to"; while inotifywait -e $EVENTS -r ./ --exclude '(.*\.sw(p|x))'; do $@; done
+}
+
+###########
+# ALIASES #
+###########
+
+# Overriding default commands
+# alias ls='ls --color=auto'
+alias grep='grep -i --color=auto'
+# alias rm='rm -i -v'
+alias mv='mv -i -v'
+alias cp='cp -v'
+alias cd="custom_cd" # custom_cd is a custom function (see above)
+alias compress='compress -v'
+
+# Some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Handy shortcuts
+alias q='exit'
+alias lstree="find . | sed 's/[^/]*\//|   /g;s/| *\([^| ]\)/+--- \1/'"
+alias path='echo $PATH | tr ":" "\n"'
+alias watch='watch ' # Source of this hack: http://yabfog.com/blog/2012/09/06/using-watch-with-a-bash-alias
+alias ssh='ssh -X'
+alias sshpi="ssh pi@serveur"
+alias pause="i3lock -i $HOME/Images/pause.png -n -t"
+alias speedtest="wget -nc -O /tmp/speedtest-cli https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py ; chmod +x /tmp/speedtest-cli && /tmp/speedtest-cli"
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+
+# Some sources :
+#  - http://root.abl.es/methods/1504/automatic-unzipuntar-using-correct-tool/
+#  - http://forum.ubuntu-fr.org/viewtopic.php?id=20437&p=3
+#  - http://www.mercereau.info/partage-de-mon-fichier-bash_aliases/
+
