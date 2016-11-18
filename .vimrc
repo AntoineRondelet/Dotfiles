@@ -25,6 +25,10 @@ Plugin 'Raimondi/delimitMate' " automatic closing of quotes, parenthesis, bracke
 Plugin 'sjl/badwolf' " Color theme
 Plugin 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
 Plugin 'https://github.com/scrooloose/nerdtree' " File tree
+Plugin 'https://github.com/jstemmer/gotags' " Trace and generates tags for golang
+Plugin 'https://github.com/majutsushi/tagbar' " Tag bar to browse gotags
+Plugin 'https://github.com/editorconfig/editorconfig-vim' " Config files management
+
 
 set laststatus=2
 set statusline+=%F
@@ -46,17 +50,58 @@ let g:syntastic_enable_highlighting = 1
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
-
+let g:ycm_confirm_extra_conf = 0
+" Don't ask if .ycm_extra_conf.py is safe to be loaded
+"
 """"""""""""""""""""""""""""""""""""""""""
 " ------------ Golang related ------------
 """"""""""""""""""""""""""""""""""""""""""
 
 let g:go_fmt_command = "goimports"
 let g:syntastic_go_checkers = ['go', 'govet', 'golint', 'errcheck']
-let g:go_fmt_fail_silently = 1
+let g:go_fmt_fail_silently = 0
 let g:go_list_type = "quickfix"
-let g:ycm_confirm_extra_conf = 0
-" Don't ask if .ycm_extra_conf.py is safe to be loaded
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
+
+
+" Useful golang abbreviation
+ab fro for
+ab fnuc func
+
+"""""""""""""""""""""""""""""""""""""""""
+"--------------- Markdown ---------------
+"""""""""""""""""""""""""""""""""""""""""
+
+let g:livedown_open = 1
+let g:livedown_port = 1337
+let g:livedown_browser = "safari"
+let g:livedown_autorun = 0
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -150,3 +195,5 @@ function! <SID>StripTrailingWhitespaces()
     let @/=_s
     call cursor(l, c)
 endfunction
+
+ab tset test
