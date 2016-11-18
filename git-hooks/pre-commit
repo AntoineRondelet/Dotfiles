@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Git pre-commit hook for golang projects
+
+red="\033[0;31m"
+yellow="\033[1;33m"
+green="\033[1;32m"
+reset="\033[0m"
+
+
+read -a changed_files <<< $(git diff --cached --name-only)
+
+#Check if there're any Go related files in commit
+runTests=false
+for file in "${changed_files[@]}"
+do
+  extension="${file##*.}"
+  case $extension in
+    go)
+      runTests=true;
+      ;;
+  esac
+done
+
+[[ $runTests == false ]] && exit 0;
+
+printf "${yellow}Starting Unit Tests for Golang Files:${reset}\n"
+make test
+
+# If tests failed, abort commit by "exit 1"
+# If not, commit
+testResults=$?
+if [ $testResults -ne 0 ]
+then
+     echo -e "${red}\n Tests FAILED\n\n commit ABORTED${reset}"
+     exit 1
+else
+  echo -e "${green}\nOK\n${reset}"
+fi
+exit 0

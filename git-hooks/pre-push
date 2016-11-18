@@ -1,0 +1,34 @@
+#!/bin/bash
+red="\033[0;31m"
+yellow="\033[1;33m"
+green="\033[1;32m"
+reset="\033[0m"
+
+printf "${yellow}Starting Unit Tests for Golang Files:${reset}\n"
+make test
+
+# If tests failed, abort push by "exit 1"
+testResults=$?
+if [ $testResults -ne 0 ]
+then
+    echo -e "${red}\n Tests FAILED\n\n push ABORTED${reset}"
+    exit 1
+else
+    echo -e "${green}\nOK\n${reset}"
+fi
+
+
+# If build failed, abort push by "exit 1"
+printf "${yellow}Starting to compile the project:${reset}\n"
+make clean build
+
+buildResults=$?
+if [ $buildResults -ne 0 ]
+then
+    echo -e "${red}\n Build FAILED\n\n push ABORTED${reset}"
+    exit 1
+else
+    echo -e "${green}\nOK\n${reset}"
+fi
+
+exit 0
