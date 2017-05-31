@@ -3,7 +3,6 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
-#   Romain Pellerin
 #   Antoine Rondelet
 
 # Source Prezto.
@@ -11,7 +10,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Romain Pellerin's dotfiles
+# Antoine Rondelet's dotfiles
 source /Users/Antoine/dotfiles/.rc
 source /Users/Antoine/dotfiles/.aliases
 
@@ -22,4 +21,4 @@ export PATH=$PATH:$GOBIN
 export GOPATH=/Users/Antoine/dev/go
 export GOBIN=$GOPATH/bin
 export DOCKER_HOST=unix:///var/run/docker.sock
-export DOCKER_API_VERSION=v1.22
+export DOCKER_API_VERSION=v1.24
