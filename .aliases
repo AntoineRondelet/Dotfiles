@@ -248,18 +248,6 @@ function listgodeps() {
     echo $sorted
 }
 
-function updatettndeps() {
-  govendor list -no-status | grep "github.com/TheThingsNetwork" | xargs go get -u
-  govendor list -no-status | grep "github.com/TheThingsNetwork" | xargs govendor update
-}
-
-function updatettideps() {
-  govendor list -no-status | grep "github.com/TheThingsIndustries" | xargs go get -u
-  govendor list -no-status | grep "github.com/TheThingsIndustries" | xargs govendor update
-}
-
-
-
 function vendorhelp {
     echo 'rm vendor/*/ in all the repo instead the one your working on'
     echo 'In case of problem, run:  rm -rf vendor + listgodeps | xargs go get -d'
@@ -269,9 +257,9 @@ function vendorhelp {
     echo '1) go get -u github.com/the/package/to/update'
     echo '2) govendor update github.com/the/package/to/update'
     echo '-----------------------------------------------------------------------'
-    echo 'Update TTN dependencies: '
-    echo 'govendor list -no-status | grep "github.com/TheThingsNetwork" | xargs go get -u'
-    echo 'govendor list -no-status | grep "github.com/TheThingsNetwork" | xargs govendor update'
+    echo 'Update GoProject dependencies: '
+    echo 'govendor list -no-status | grep "github.com/GoProject" | xargs go get -u'
+    echo 'govendor list -no-status | grep "github.com/GoProject" | xargs govendor update'
 }
 
 
@@ -292,11 +280,6 @@ function dockerhelp {
   echo '-----------------------------------------------------------------------'
   echo 'Access to the docker virtual machine on Mac'
   echo 'screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
-}
-
-
-function awshelp {
-    echo 'Create a stack: aws cloudformation create-stack --stack-name ttn-dev --capabilities CAPABILITY_IAM --template-body file://infrastructure/cloudformation.template'
 }
 
 ###########
