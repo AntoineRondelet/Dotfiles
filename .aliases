@@ -162,6 +162,9 @@ function githelp {
     echo "Each other client of the repository has to do:"
     echo "git fetch origin ; git remote prune origin"
     echo "-------------------------------------------------------------------------------"
+    echo "Get the list of modified files of a commit:"
+    echo "git diff-tree --no-commit-id -r --name-only <commit-number>"
+    echo "-------------------------------------------------------------------------------"
 }
 
 # A reminder
@@ -245,6 +248,16 @@ function listgodeps() {
     echo $sorted
 }
 
+function updatettndeps() {
+  govendor list -no-status | grep "github.com/TheThingsNetwork" | xargs go get -u
+  govendor list -no-status | grep "github.com/TheThingsNetwork" | xargs govendor update
+}
+
+function updatettideps() {
+  govendor list -no-status | grep "github.com/TheThingsIndustries" | xargs go get -u
+  govendor list -no-status | grep "github.com/TheThingsIndustries" | xargs govendor update
+}
+
 
 
 function vendorhelp {
@@ -255,6 +268,35 @@ function vendorhelp {
     echo 'Update a package: '
     echo '1) go get -u github.com/the/package/to/update'
     echo '2) govendor update github.com/the/package/to/update'
+    echo '-----------------------------------------------------------------------'
+    echo 'Update TTN dependencies: '
+    echo 'govendor list -no-status | grep "github.com/TheThingsNetwork" | xargs go get -u'
+    echo 'govendor list -no-status | grep "github.com/TheThingsNetwork" | xargs govendor update'
+}
+
+
+
+function dockerhelp {
+  echo 'Delete containers with same pattern in the name (typical use when a docker service fails which creates a lot of containers on the daemon):'
+  echo 'docker ps -a | grep "<pattern>" | awk '"'"'{print $1}'"'"' | xargs docker rm'
+  echo '                                            |_ group to capture and print. Here we keep the ID of the container'
+  echo '-----------------------------------------------------------------------'
+  echo 'Delete untagged images:'
+  echo 'docker rmi $(docker images -a | grep "^<none>" | awk '"'"'{print $3}'"'"')'
+  echo '-----------------------------------------------------------------------'
+  echo 'Delete all stopped containers:'
+  echo 'docker rm $(docker ps -a -q)'
+  echo '-----------------------------------------------------------------------'
+  echo 'Know the file log of a container'
+  echo "docker inspect --format='{{.LogPath}}' containerName"
+  echo '-----------------------------------------------------------------------'
+  echo 'Access to the docker virtual machine on Mac'
+  echo 'screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
+}
+
+
+function awshelp {
+    echo 'Create a stack: aws cloudformation create-stack --stack-name ttn-dev --capabilities CAPABILITY_IAM --template-body file://infrastructure/cloudformation.template'
 }
 
 ###########
@@ -280,14 +322,17 @@ alias q='exit'
 alias lstree="find . | sed 's/[^/]*\//|   /g;s/| *\([^| ]\)/+--- \1/'"
 alias path='echo $PATH | tr ":" "\n"'
 alias watch='watch ' # Source of this hack: http://yabfog.com/blog/2012/09/06/using-watch-with-a-bash-alias
-alias ssh='ssh -X'
+alias ssh='echo "!!! Careful not to ssh the production !!!" && ssh -X'
 alias sshpi="ssh pi@serveur"
-alias pause="i3lock -i $HOME/Images/pause.png -n -t"
+alias pause="lock -i $HOME/Images/pause.png -n -t"
 alias speedtest="wget -nc -O /tmp/speedtest-cli https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py ; chmod +x /tmp/speedtest-cli && /tmp/speedtest-cli"
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias myip="ifconfig | grep -Eo 'inet \S+' | grep -v '127.0.0.1' | awk '{print $2}'"
 
 ## Mac specific
 alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias ejava="$HOME/eclipse/java-neon/Eclipse.app/Contents/MacOS/eclipse &"
+alias ejee="$HOME/eclipse/jee-neon/Eclipse.app/Contents/MacOS/eclipse &"
+alias composer='/usr/local/bin/composer.phar'
 
 # Some sources :
 #  - http://root.abl.es/methods/1504/automatic-unzipuntar-using-correct-tool/
