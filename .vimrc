@@ -18,15 +18,11 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'https://github.com/shime/vim-livedown.git' " Live preview of markdown
-Plugin 'https://github.com/Valloric/YouCompleteMe' " Auto completion
 Plugin 'https://github.com/fatih/vim-go' " Using Go tools with vim
 Plugin 'https://github.com/scrooloose/syntastic' " Syntax checker
 Plugin 'Raimondi/delimitMate' " automatic closing of quotes, parenthesis, brackets, etc
 Plugin 'sjl/badwolf' " Color theme
 Plugin 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
-Plugin 'https://github.com/scrooloose/nerdtree' " File tree
-Plugin 'https://github.com/jstemmer/gotags' " Trace and generates tags for golang
-Plugin 'https://github.com/majutsushi/tagbar' " Tag bar to browse gotags
 Plugin 'https://github.com/editorconfig/editorconfig-vim' " Config files management
 
 
@@ -39,60 +35,26 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_id_checkers = 1
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_error_symbol = "✗"
-let g:syntastic_enable_balloons = 1
 let g:syntastic_enable_highlighting = 1
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:ycm_confirm_extra_conf = 0
-" Don't ask if .ycm_extra_conf.py is safe to be loaded
-"
 """"""""""""""""""""""""""""""""""""""""""
 " ------------ Golang related ------------
 """"""""""""""""""""""""""""""""""""""""""
 
 let g:go_fmt_command = "goimports"
-let g:syntastic_go_checkers = ['go', 'govet', 'golint', 'errcheck']
-let g:go_fmt_fail_silently = 0
-let g:go_list_type = "quickfix"
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-    \ }
 
-
-" Useful golang abbreviation
+" Useful golang abbreviations
 ab fro for
 ab fnuc func
+
+
+""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""" HTML """"""""""""""""""
+""""""""""""""""""""""""""""""""""""""""
+
+let g:html_indent_inctags = "html,body,head,tbody"
 
 """""""""""""""""""""""""""""""""""""""""
 "--------------- Markdown ---------------
@@ -121,10 +83,6 @@ filetype plugin indent on    " required
 " ----------- Config ------------
 """""""""""""""""""""""""""""""""
 
-"""" SHOW A VERTICAL RULER
-highlight Overlength ctermbg=red ctermfg=white guibg=#592929
-" match Overlength /\%101v.\+/
-
 """" SPACES and TABS
 set tabstop=4           " number of visual spaces per TAB
 set softtabstop=4       " number of spaces in tab when editing
@@ -134,12 +92,6 @@ set smarttab            " be smart when using tabs
 set shiftwidth=4        " control how many columns text is indented with the reindent operations (<< and >>) and automatic C-style indentation
 set ai                  " Auto indent
 set si                  " Smart indent
-
-
-"""" MARKDOWN
-autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,markdown} set filetype=markdown
-let blacklist = ['markdown']
-autocmd BufWritePre * if index(blacklist, &ft) < 0 | :call <SID>StripTrailingWhitespaces()
 
 """" UI
 set number              " show line numbers
@@ -176,24 +128,3 @@ set ffs=unix,dos,mac    " Use Unix as the standard file type
 """" OTHER
 set autoread            " Set to auto read when a file is changed from the outside
 set history=5000        " Sets how many lines of history VIM has to remember
-
-"""" COMMANDS AND SHORTCUTS
-"
-" Shortcut for opening the NERDTree
-function OpenNERDTree()
-    execute ":NERDTree"
-endfunction
-command -nargs=0 OpenNERDTree :call OpenNERDTree()
-nmap <ESC>t :OpenNERDTree<CR>
-"
-"
-function! <SID>StripTrailingWhitespaces()
-    let _s=@/
-    let l=line(".")
-    let c=col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
-endfunction
-
-ab tset test
