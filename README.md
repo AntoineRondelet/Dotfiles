@@ -101,6 +101,10 @@ make geth
 
 `npm install -g truffle`
 
+4. Install testRPC
+
+`npm install -g ganache-cli`
+
 
 ## Git setup
 
