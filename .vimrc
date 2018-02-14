@@ -24,6 +24,7 @@ Plugin 'Raimondi/delimitMate' " automatic closing of quotes, parenthesis, bracke
 Plugin 'sjl/badwolf' " Color theme
 Plugin 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
 Plugin 'https://github.com/editorconfig/editorconfig-vim' " Config files management
+Plugin 'tomlion/vim-solidity' " Solidity plugin
 
 
 set laststatus=2

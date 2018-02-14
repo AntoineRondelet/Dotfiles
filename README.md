@@ -17,13 +17,18 @@ Go to the AppStore and install XCode
 ## Install desired packages
 
 ```
+brew update                                                           ✘ 1
+brew upgrade
 brew install autojump \
               go \
               git \
               zsh \
               gpg \
               wget \
-              vim
+              node \
+              docker \
+              vim \
+              htop
 ```
 
 ## Setup zsh
@@ -71,6 +76,27 @@ ln -s $REPO_DIR/.ycm_extra_conf.py $HOME/
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim # And run the command :PluginInstall
 ```
+
+## Ethereum setup
+
+
+1. Install Solidity
+```
+brew update                                                           ✘ 1
+brew upgrade
+brew tap ethereum/ethereum
+brew install solidity
+brew linkapps solidity
+```
+
+2. Build Geth
+
+```
+git clone https://github.com/ethereum/go-ethereum
+cd go-ethereum
+make geth
+```
+
 
 ## Git setup
 

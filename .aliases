@@ -317,6 +317,10 @@ alias ejava="$HOME/eclipse/java-neon/Eclipse.app/Contents/MacOS/eclipse &"
 alias ejee="$HOME/eclipse/jee-neon/Eclipse.app/Contents/MacOS/eclipse &"
 alias composer='/usr/local/bin/composer.phar'
 
+
+# Ethereum specific
+alias geth="/Users/antoine/dev/go/src/github.com/ethereum/go-ethereum/build/bin/geth"
+
 # Some sources :
 #  - http://root.abl.es/methods/1504/automatic-unzipuntar-using-correct-tool/
 #  - http://forum.ubuntu-fr.org/viewtopic.php?id=20437&p=3
