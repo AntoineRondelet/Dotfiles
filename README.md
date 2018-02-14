@@ -17,7 +17,7 @@ Go to the AppStore and install XCode
 ## Install desired packages
 
 ```
-brew update                                                           ✘ 1
+brew update
 brew upgrade
 brew install autojump \
               go \
@@ -42,7 +42,7 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
 done
 ```
 
-## Set zsh qs the default shell
+## Set zsh as the default shell
 
 `chsh -s /bin/zsh`
 
@@ -82,7 +82,7 @@ vim # And run the command :PluginInstall
 
 1. Install Solidity
 ```
-brew update                                                           ✘ 1
+brew update
 brew upgrade
 brew tap ethereum/ethereum
 brew install solidity
@@ -96,6 +96,10 @@ git clone https://github.com/ethereum/go-ethereum
 cd go-ethereum
 make geth
 ```
+
+3. Install Truffle
+
+`npm install -g truffle`
 
 
 ## Git setup
