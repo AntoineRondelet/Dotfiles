@@ -165,6 +165,11 @@ function githelp {
     echo "Get the list of modified files of a commit:"
     echo "git diff-tree --no-commit-id -r --name-only <commit-number>"
     echo "-------------------------------------------------------------------------------"
+    echo "Change the commiter of the previous commit:"
+    echo 'git commit --amend --author="Author Name <email@address.com>"'
+    echo "Sign the previous commit:"
+    echo "git commit --amend -S"
+    echo "-------------------------------------------------------------------------------"
 }
 
 # A reminder
