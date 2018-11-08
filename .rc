@@ -1,3 +1,4 @@
+# Welcome header when starting a new session
 echo "`printf '\033[01;32m'`Hello `printf '\033[01;34m'`$USER`printf '\033[00m'`"
 
 # Vim related environment variables
@@ -12,13 +13,20 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey "^x^e" edit-command-line
 
-PATH=/home/Antoine/dotfiles/scripts/:/Users/Antoine/dev/go/bin:/Users/Antoine/.npm-global/bin:$PATH
+# Personal scripts
+export PATH=$HOME/Dotfiles/scripts:$PATH
 
-export NPM_CONFIG_PREFIX=~/.npm-global
+# NPM utilities
+export PATH=$HOME/.npm-global/bin:$PATH
+export NPM_CONFIG_PREFIX=$HOME/.npm-global
+
+# Haskell environment
+export PATH="$HOME/Library/Haskell/bin:$PATH"
 
 # Golang environment
-export GOPATH=/Users/Antoine/dev/go
-export GOBIN=/Users/Antoine/dev/go/bin
+export GOPATH=$HOME/dev/go
+export GOBIN=$GOPATH/bin
+export PATH=$GOBIN:$PATH # Include GOBIN in the PATH
 
 #echo -e "CPU temp: \c" && {/opt/vc/bin/vcgencmd measure_temp | cut -d = -f 2}
 
