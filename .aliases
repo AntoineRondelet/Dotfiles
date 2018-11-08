@@ -1,5 +1,3 @@
-# https://github.com/rpellerin/dotfiles/blob/master/.aliases
-
 #############
 # FUNCTIONS #
 #############
@@ -253,6 +251,7 @@ function listgodeps() {
     echo $sorted
 }
 
+# A reminder
 function vendorhelp {
     echo 'rm vendor/*/ in all the repo instead the one your working on'
     echo 'In case of problem, run:  rm -rf vendor + listgodeps | xargs go get -d'
@@ -267,8 +266,7 @@ function vendorhelp {
     echo 'govendor list -no-status | grep "github.com/GoProject" | xargs govendor update'
 }
 
-
-
+# A reminder
 function dockerhelp {
   echo 'Delete containers with same pattern in the name (typical use when a docker service fails which creates a lot of containers on the daemon):'
   echo 'docker ps -a | grep "<pattern>" | awk '"'"'{print $1}'"'"' | xargs docker rm'
@@ -286,6 +284,29 @@ function dockerhelp {
   echo 'Access to the docker virtual machine on Mac'
   echo 'screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
 }
+
+# A reminder
+# (from: https://stackoverflow.com/questions/106234/lsof-survival-guide)
+function lsofhelp {
+  echo 'Show all networking related to a given port:'
+  echo 'lsof -i :[PORT]'
+  echo '-----------------------------------------------------------------------'
+  echo 'Show on which ports the system is listening on:'
+  echo 'lsof -i | grep LISTEN'
+  echo '-----------------------------------------------------------------------'
+  echo 'Show what a given user has opened:'
+  echo 'lsof -u [USER] (eg: lsof -u $(whoami))'
+  echo '-----------------------------------------------------------------------'
+  echo 'Show what files and network connections a command is using:'
+  echo 'lsof -c [COMMAND]'
+  echo '-----------------------------------------------------------------------'
+  echo 'Show what a process of given ID has open (Good for learning more about unknown processes)'
+  echo 'lsof -p [PID]'
+  echo '-----------------------------------------------------------------------'
+  echo 'Kill everything a user has open:'
+  echo 'kill -9 $(lsof -t -u [USER])'
+}
+
 
 ###########
 # ALIASES #
