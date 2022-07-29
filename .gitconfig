@@ -19,5 +19,3 @@
 [core]
   editor = vim
   excludesfile = /Users/antoine/.gitignore_global
-[commit]
-  gpgsign = true
