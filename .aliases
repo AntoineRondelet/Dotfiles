@@ -60,10 +60,10 @@ function ban() {
 }
 
 # Update + upgrade the system
-function maj() {
-    sudo aptitude update && sudo aptitude safe-upgrade && sudo aptitude autoclean && sudo aptitude clean
-    notify-send -t 10000 "Update and upgrade done"
-}
+#function maj() {
+#    sudo aptitude update && sudo aptitude safe-upgrade && sudo aptitude autoclean && sudo aptitude clean
+#    notify-send -t 10000 "Update and upgrade done"
+#}
 
 # Display the content of a directory after a 'cd'
 function custom_cd () {
@@ -71,12 +71,12 @@ function custom_cd () {
 }
 
 # Open a file with the appropriate application
-function open {
-    while [ "$1" ] ; do
-        xdg-open $1 &> /dev/null
-        shift # shift décale les param
-    done
-}
+#function open {
+#    while [ "$1" ] ; do
+#        xdg-open $1 &> /dev/null
+#        shift # shift décale les param
+#    done
+#}
 
 # Remove all backup files in specified directory and sub-directories
 function rm_backup {
@@ -86,11 +86,6 @@ function rm_backup {
 # Shows the last modified files
 function last_modified {
     find $1 -type f -exec stat --format '%Y :%y %n' {} \; | sort -n | cut -d: -f2- | tail
-}
-
-# Set the brightness to the desired value (0-100)
-function set_brightness {
-  sudo sh -c "echo $1 > /sys/class/backlight/acpi_video0/brightness"
 }
 
 # A reminder
@@ -213,12 +208,6 @@ function tmuxhelp {
     echo "Taken from: https://gist.github.com/henrik/1967800"
 }
 
-# A reminder
-function docgo {
-    echo ' Run locally : $ godoc -http=:6060 '
-    echo ' Point your browser to : http://localhost:6060 '
-}
-
 function vimload {
     vim --startuptime timeCost.txt timeCost.txt
     rm -f timeCost.txt
@@ -230,8 +219,12 @@ function gitwhoistheboss {
     echo 'git ls-tree -r -z --name-only HEAD -- **/*.cpp | xargs -0 -n1 git blame --line-porcelain HEAD |grep  "^author "|sort|uniq -c|sort -nr'
 }
 
-function ino {
-    EVENTS="create,modify,close_write,moved_to"; while inotifywait -e $EVENTS -r ./ --exclude '(.*\.sw(p|x))'; do $@; done
+# [Begin] Golang specific
+#
+# A reminder
+function docgohelp {
+    echo ' Run locally : $ godoc -http=:6060 '
+    echo ' Point your browser to : http://localhost:6060 '
 }
 
 function listgodeps() {
@@ -252,7 +245,7 @@ function listgodeps() {
 }
 
 # A reminder
-function vendorhelp {
+function govendorhelp {
     echo 'rm vendor/*/ in all the repo instead the one your working on'
     echo 'In case of problem, run:  rm -rf vendor + listgodeps | xargs go get -d'
     echo 'govendor add +external'
@@ -265,6 +258,7 @@ function vendorhelp {
     echo 'govendor list -no-status | grep "github.com/GoProject" | xargs go get -u'
     echo 'govendor list -no-status | grep "github.com/GoProject" | xargs govendor update'
 }
+# [End] Golang specific
 
 # A reminder
 function dockerhelp {
@@ -330,24 +324,15 @@ alias l='ls -CF'
 alias q='exit'
 alias lstree="find . | sed 's/[^/]*\//|   /g;s/| *\([^| ]\)/+--- \1/'"
 alias path='echo $PATH | tr ":" "\n"'
-alias watch='watch ' # Source of this hack: http://yabfog.com/blog/2012/09/06/using-watch-with-a-bash-alias
 alias ssh='echo "!!! Careful not to ssh the production !!!" && ssh -X'
-alias sshpi="ssh pi@serveur"
 alias pause="lock -i $HOME/Images/pause.png -n -t"
 alias speedtest="wget -nc -O /tmp/speedtest-cli https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py ; chmod +x /tmp/speedtest-cli && /tmp/speedtest-cli"
 alias myip="ifconfig | grep -Eo 'inet \S+' | grep -v '127.0.0.1' | awk '{print $2}'"
 
 ## Mac specific
 alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-alias ejava="$HOME/eclipse/java-neon/Eclipse.app/Contents/MacOS/eclipse &"
-alias ejee="$HOME/eclipse/jee-neon/Eclipse.app/Contents/MacOS/eclipse &"
-alias composer='/usr/local/bin/composer.phar'
 
-
-# Ethereum specific
-alias geth="/Users/antoine/dev/go/src/github.com/ethereum/go-ethereum/build/bin/geth"
-
-# Some sources :
+# Some references:
 #  - http://root.abl.es/methods/1504/automatic-unzipuntar-using-correct-tool/
 #  - http://forum.ubuntu-fr.org/viewtopic.php?id=20437&p=3
 #  - http://www.mercereau.info/partage-de-mon-fichier-bash_aliases/

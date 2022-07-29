@@ -1,47 +1,35 @@
-" https://github.com/KtorZ/dotfiles/blob/master/vimrc
-" https://github.com/sd65/MiniVim/blob/master/vimrc
-" https://github.com/rpellerin/dotfiles/blob/master/.vimrc
+" References:
+" - VIM Quick Ref: http://alexquinn.org/techref/Vim_Quick_Reference_Guide.pdf
+" - http://vimdoc.sourceforge.net/htmldoc/options.html
+" - https://stackoverflow.com/questions/15685729/vimscript-what-is-the-difference-between-let-g-let-b-etc
 
 """""""""""""""""""""""""""""""""""""""""""""""""
-"-------------------- VUNDLE --------------------
+"------------------- Vim Plug -------------------
 """""""""""""""""""""""""""""""""""""""""""""""""
 
-set nocompatible              " be iMproved, required
+" Installs Vim-Plug automatically
+" As described here: https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+set nocompatible              " use VIM (i.e. IMproved) settings rather than VI settings
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
-"
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'https://github.com/shime/vim-livedown.git' " Live preview of markdown
-Plugin 'https://github.com/fatih/vim-go' " Using Go tools with vim
-Plugin 'https://github.com/scrooloose/syntastic' " Syntax checker
-Plugin 'Raimondi/delimitMate' " automatic closing of quotes, parenthesis, brackets, etc
-Plugin 'sjl/badwolf' " Color theme
-Plugin 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder
-Plugin 'https://github.com/editorconfig/editorconfig-vim' " Config files management
-Plugin 'tomlion/vim-solidity' " Solidity plugin
+" See: https://github.com/junegunn/vim-plug#example
+" We use the default plugin directory here, so we pass no argument
+" to the plug#begin() function.
+call plug#begin()
 
+Plug 'dense-analysis/ale' " Linting plugin (syntax checking and semantic errors)
+Plug 'fatih/vim-go', { 'tag': '*' } " Support for Go tool in Vim
 
-set laststatus=2
-set statusline+=%F
-
-" Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-
-let g:syntastic_warning_symbol = "⚠"
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_enable_highlighting = 1
+call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""
-" ------------ Golang related ------------
+" ----------- Golang config --------------
 """"""""""""""""""""""""""""""""""""""""""
 
 let g:go_fmt_command = "goimports"
@@ -50,35 +38,7 @@ let g:go_fmt_command = "goimports"
 ab fro for
 ab fnuc func
 
-
-""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""" HTML """"""""""""""""""
-""""""""""""""""""""""""""""""""""""""""
-
-let g:html_indent_inctags = "html,body,head,tbody"
-
-"""""""""""""""""""""""""""""""""""""""""
-"--------------- Markdown ---------------
-"""""""""""""""""""""""""""""""""""""""""
-
-let g:livedown_open = 1
-let g:livedown_port = 1337
-let g:livedown_browser = "safari"
-let g:livedown_autorun = 0
-
-call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 """""""""""""""""""""""""""""""""
 " ----------- Config ------------
@@ -108,6 +68,8 @@ set ignorecase          " case insensitive
 set ruler               " Line/char number, percentage in the bottom right of the screen
 set laststatus=2        " Always show the status line
 set noerrorbells        " Mute the error bell
+set laststatus=2
+set statusline+=%F
 
 """" SEARCHING
 set ignorecase          " ignore case when searching
@@ -119,7 +81,6 @@ set magic               " for regular expressions turn magic on
 """" COLOR
 syntax enable           " enable syntax hightligthing
 set background=dark     " Adapt colors on a black background
-colorscheme badwolf     " awesome colorscheme
 
 """" ENCODING
 set encoding=utf-8      " The encoding displayed
@@ -128,4 +89,6 @@ set ffs=unix,dos,mac    " Use Unix as the standard file type
 
 """" OTHER
 set autoread            " Set to auto read when a file is changed from the outside
-set history=5000        " Sets how many lines of history VIM has to remember
+set history=50          " Sets how many lines of history VIM has to remember
+set textwidth=82	" Control the wrap width to use
+set formatoptions=croq  " Set formatting options

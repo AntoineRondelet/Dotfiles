@@ -11,14 +11,10 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Antoine Rondelet's dotfiles
-source /Users/Antoine/dotfiles/.rc
-source /Users/Antoine/dotfiles/.aliases
+# Assumes the dotfiles folder has been git cloned in $HOME
+source $HOME/dotfiles/.rc
+source $HOME/dotfiles/.aliases
 
 # Customize the defaults rights of your files and folders
-umask 027
 # User have all rights, Group have Read and Execute and Others : Nothing
-export PATH=$PATH:$GOBIN
-export GOPATH=/Users/Antoine/dev/go
-export GOBIN=$GOPATH/bin
-export DOCKER_HOST=unix:///var/run/docker.sock
-export DOCKER_API_VERSION=v1.24
+umask 027

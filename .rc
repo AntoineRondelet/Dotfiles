@@ -2,33 +2,30 @@
 echo "`printf '\033[01;32m'`Hello `printf '\033[01;34m'`$USER`printf '\033[00m'`"
 
 # Vim related environment variables
-export EDITOR=/usr/local/Cellar/vim/7.4.2033/bin/vim
+# See: https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
+# https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference/334022#334022
+export EDITOR="$(command -v vim 2>/dev/null || command -v vi)"
 export VISUAL=vim
 
 # GPG environment
+# https://www.gnupg.org/documentation/manuals/gnupg/Invoking-GPG_002dAGENT.html
 export GPG_TTY=$(tty)
 
-# Enable Ctrl-x-e to edit command line
+# Enable ESC-v to edit command line
+# See: https://nuclearsquid.com/writings/edit-long-commands/
 autoload edit-command-line
 zle -N edit-command-line
-bindkey "^x^e" edit-command-line
+bindkey -M vicmd v edit-command-line
 
-# Personal scripts
-export PATH=$HOME/Dotfiles/scripts:$PATH
-
-# NPM utilities
-export PATH=$HOME/.npm-global/bin:$PATH
-export NPM_CONFIG_PREFIX=$HOME/.npm-global
-
-# Haskell environment
-export PATH="$HOME/Library/Haskell/bin:$PATH"
-
-# Golang environment
-export GOPATH=$HOME/dev/go
-export GOBIN=$GOPATH/bin
-export PATH=$GOBIN:$PATH # Include GOBIN in the PATH
+# Move personal scripts in the PATH
+export PATH="$HOME/Dotfiles/scripts:$PATH"
 
 #echo -e "CPU temp: \c" && {/opt/vc/bin/vcgencmd measure_temp | cut -d = -f 2}
 
 # Setup for autojump
-. /usr/local/Cellar/autojump/22.5.1/etc/autojump.sh
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	# $(brew --prefix)/etc/profile.d/autojump.sh
+	[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+else
+	. /usr/share/autojump/autojump.sh
+fi
