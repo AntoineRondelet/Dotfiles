@@ -45,7 +45,7 @@ Note: zsh is now set as default terminal on macOS (see [here](https://support.ap
 
 ```
 # Clone this repository into the home directory
-git clone git@github.com:AntoineRondelet/Dotfiles.git $HOME
+git clone git@github.com:AntoineRondelet/Dotfiles.git $HOME/Dotfiles
 cd $HOME/Dotfiles
 REPO_DIR=`pwd`
 
