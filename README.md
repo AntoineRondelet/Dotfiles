@@ -64,10 +64,10 @@ ln -sf $REPO_DIR/.vimrc $HOME/
 
 ## Vim setup
 
-```
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-vim # And run the command :PluginInstall
-```
+See: https://github.com/junegunn/vim-plug#installation
+
+Note: The Plug Vim installation is configured automatically in the `.vimrc` file
+as done in https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 
 ## Git setup
 
