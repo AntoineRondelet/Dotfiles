@@ -17,7 +17,8 @@ brew install --cask iterm2 \
 	zoom \
 	brave-browser \
 	visual-studio-code \
-	tor-browser
+	tor-browser \
+    keybase
 # Add any relevant application here: e.g. Slack, Libreoffice etc.
 ```
 
@@ -74,6 +75,8 @@ as done in https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 1. Generate a SSH Key and add it to Github (see: https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/)
 
 2. Generate a GPG key and add it to Github (see: https://help.github.com/articles/generating-a-new-gpg-key/), and set all parameters to the max secure values + set the key to expire ! It is good to renew the key pair once in a while.
+    - See: http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/
+    - Use keybase for GPG management and operations
 
 3. Make sure to update the `signingkey` field in the `.gitconfig` file, with the ID of the new key.
 
