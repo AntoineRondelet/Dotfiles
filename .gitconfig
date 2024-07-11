@@ -19,3 +19,5 @@
 [core]
   editor = vim
   excludesfile = /Users/antoine/.gitignore_global
+[init]
+	defaultBranch = main
