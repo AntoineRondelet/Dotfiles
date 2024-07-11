@@ -16,9 +16,9 @@ source $HOME/dotfiles/.rc
 source $HOME/dotfiles/.aliases
 
 export PATH="$PATH:$HOME/Dev/flutter/bin:$HOME/Library/Android/sdk/platform-tools/:$HOME/Library/Android/sdk/emulator/"
-source /usr/local/opt/chruby/share/chruby/chruby.sh
-source /usr/local/opt/chruby/share/chruby/auto.sh
-chruby ruby-3.1.3
+source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+chruby ruby-3.3.4
 
 # Follow https://docs.djangoproject.com/en/4.1/ref/contrib/gis/install/#postgres-app
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/15/bin

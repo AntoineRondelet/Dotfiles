@@ -19,6 +19,7 @@ brew install --cask iterm2 \
 	visual-studio-code \
 	tor-browser \
     keybase
+
 # Add any relevant application here: e.g. Slack, Libreoffice etc.
 ```
 
@@ -87,4 +88,12 @@ See: https://github.com/junegunn/vim-plug#installation
 
 Note: The Plug Vim installation is configured automatically in the `.vimrc` file
 as done in https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+
+## Misc
+
+- Install Ruby via `chruby`: https://mac.install.guide/ruby/12
+- Install Flutter: https://docs.flutter.dev/get-started/install/macos/desktop
+    - Requires a recent Ruby version (see step above)
+    - Install Xcode simulator runtimes: https://developer.apple.com/documentation/xcode/installing-additional-simulator-runtimes
+        - `XCode > Settings > Platforms` - pick the necessary platforms (e.g. iOS)
 
