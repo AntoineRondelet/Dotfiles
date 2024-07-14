@@ -34,7 +34,8 @@ brew install autojump \
               node \
               docker \
               vim \
-              htop
+              htop \
+              imagemagick
 ```
 
 ## Step 5. Git setup
